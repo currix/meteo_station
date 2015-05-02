@@ -1,6 +1,14 @@
 def repvals(tseries):
     ##
-    '''Fernando lo va a escribir esto...'''
+    '''Return repeated time values a time series.
+
+       Argument: 
+                tseries: a time series vector
+
+       Output:
+                pandas series with repeated elements as index and number of appearances as data.
+ 
+       By UHU April 23, 2015'''
     ##
     import numpy as np
     import pandas as pd

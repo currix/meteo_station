@@ -1,7 +1,12 @@
 def fwd_diff(vector):
     ###
-    '''Calculate the forward difference of elements in a numpy vector:
-    v_i+1 - v_i'''
+    '''Calculate the forward difference (v_i+1 - v_i) of elements in a numpy vector.
+       
+       Argument: vector
+
+       Output:  vector 
+
+       By UHU April 23, 2015'''
     ###
     import numpy as np
     ###

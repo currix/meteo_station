@@ -1,6 +1,15 @@
 def check_tinverval(tseries, interval=10):
     ##
-    '''Fernando lo va a escribir esto...'''
+    '''Return elements in the time series tseries that don't have the given frequency interval. The argument interval is given in units of minutes with a default value of 10 minutes.
+
+       Arguments: 
+                  tseries :  time series
+                  interval:  time interval in minutes (default val = 10 min)
+
+       Output:
+                  pandas series with data = irregular periods and index = times when irregular periods happen.
+
+       By UHU April 23, 2015'''
     ##
     import numpy as np
     import pandas as pd

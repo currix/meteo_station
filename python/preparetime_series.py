@@ -1,5 +1,13 @@
 def prep_time_series(data_frame_name):
-    '''To be written by Fernando'''
+    '''Given a data frame with meteorological data having a column labeld "time" and a column labeled "date" returns the same data frame adding a new column labeled "tdate" with a time series of combined data of dates and time columns.
+
+       Argument: 
+                data_frame_name  : meteorology data frame
+
+       Output:
+               pandas data frame with a "tdate" column which has time data for each event.
+                
+       By UHU April 23, 2015'''
     import numpy as np
     import pandas as pd
     from dateutil.parser import parse
