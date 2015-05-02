@@ -1,0 +1,2 @@
+#!/bin/bash
+cat preparetime_series.py read_CCEE_station_data.py read_MONT_station_data.py repeated_values_vec.py check_time_interval.py del_rep_values_metdf.py > defined_functions.py
