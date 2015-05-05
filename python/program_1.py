@@ -1,10 +1,10 @@
-def quality_control(datafile, data_format = "CCEE", iprint = 0):
+def quality_control(datafile, tmin, tmax, data_format = "CCEE", frequency = 10, iprint = 0):
     ''' Docstring...Fernando'''
     ##
     import numpy as np
     import pandas as pd
     ##
-    from defined_functions import read_CCEE_data, read_MONT_data, prep_time_series, repvals, check_tinterval, del_rep_values_metdata
+    from defined_functions import read_CCEE_data, read_MONT_data, prep_time_series, repvals, check_tinterval, del_rep_values_metdata, prepare_full_exp_tseries
     #
     print data_format
     assert (data_format == "CCEE" or  data_format == "MONT"), "Unknown Data Format"
@@ -20,5 +20,7 @@ def quality_control(datafile, data_format = "CCEE", iprint = 0):
     gaps = check_tinterval(unique_vals, interval=10, iprint = iprint)
     #
     new_metdataf = del_rep_values_metdata(rawdata, repeated_vals)
+    #
+    new_metdataf = prepare_full_exp_tseries(tmin, tmax, new_metdataf, frequency = frequency)
     #
     return gaps, new_metdataf
