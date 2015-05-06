@@ -4,7 +4,7 @@ def quality_control(datafile, tmin, tmax, data_format = "CCEE", frequency = 10, 
     import numpy as np
     import pandas as pd
     ##
-    from defined_functions import read_CCEE_data, read_MONT_data, prep_time_series, repvals, check_tinterval, del_rep_values_metdata, prepare_full_exp_tseries
+    from defined_functions import read_CCEE_data, read_MONT_data, prep_time_series, repvals, check_tinterval, del_rep_values_metdata, prepare_full_exp_tseries, trim_dates
     #
     print data_format
     assert (data_format == "CCEE" or  data_format == "MONT"), "Unknown Data Format"
@@ -18,6 +18,8 @@ def quality_control(datafile, tmin, tmax, data_format = "CCEE", frequency = 10, 
     unique_vals, repeated_vals = repvals(tseries)
     #
     gaps = check_tinterval(unique_vals, interval=10, iprint = iprint)
+    #
+    gaps = trim_dates(tmin, tmax, gaps)
     #
     new_metdataf = del_rep_values_metdata(rawdata, repeated_vals)
     #

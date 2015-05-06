@@ -9,6 +9,8 @@ def prepare_full_exp_tseries(t_min, t_max, metdata, frequency = 10):
     t_ini = parse(t_min, dayfirst=True)
     t_end = parse(t_max, dayfirst=True)
     #
+    # Fernando: Include assert checking t_ini < t_end
+    #
     # Chop series
     #
     deleted_indexes = []

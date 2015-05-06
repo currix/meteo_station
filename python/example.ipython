@@ -1,0 +1,79 @@
+import numpy as np
+import pandas as pd
+from matplotlib import pyplot
+import statsmodels.api as sm
+
+%run program_1.py
+
+gapsCCEE, df_CCEE = quality_control("../data/RESTORE.TXT",
+"01/09/2013", "30/11/2013")
+
+gapsMONT, df_MONT = quality_control("../data/año2013.txt",
+"01/09/2013", "30/11/2013", data_format="MONT")
+
+# Correlación
+df_CCEE["Tout"].corr(df_MONT["Tout"])
+
+# Ploteo
+df_CCEE["Tout"].plot()
+df_MONT["Tout"].plot()
+
+pyplot.show()
+
+(df_MONT["Tout"]-df_CCEE["Tout"]).plot()
+
+pyplot.show()
+
+# downsampling 
+tout_hourly_CCEE = df_CCEE["Tout"].resample("H")
+tout_hourly_MONT = df_MONT["Tout"].resample("H")
+
+tout_daily_CCEE = df_CCEE["Tout"].resample("D")
+tout_daily_MONT = df_MONT["Tout"].resample("D")
+
+df_CCEE["Tout"].describe()
+
+#
+# Regression
+
+Y = tout_daily_CCEE.values
+
+X = tout_daily_MONT.values
+
+
+# Remove NaNs from both vectors. Easier in new version of statsmodel
+
+notnanvalues = np.logical_and(np.logical_not(np.isnan(X)),np.logical_not(np.isnan(Y)))
+X = X[notnanvalues]
+Y = Y[notnanvalues]
+
+
+
+X = sm.add_constant(X)
+
+model = sm.OLS(Y, X)
+
+results = model.fit()
+
+print(results.summary())
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                      y   R-squared:                       0.986
+Model:                            OLS   Adj. R-squared:                  0.986
+Method:                 Least Squares   F-statistic:                     5303.
+Date:                Wed, 06 May 2015   Prob (F-statistic):           8.99e-73
+Time:                        18:40:51   Log-Likelihood:                -61.068
+No. Observations:                  79   AIC:                             126.1
+Df Residuals:                      77   BIC:                             130.9
+Df Model:                           1                                         
+==============================================================================
+                 coef    std err          t      P>|t|      [95.0% Conf. Int.]
+------------------------------------------------------------------------------
+x1             1.0133      0.014     72.825      0.000         0.986     1.041
+const         -0.3597      0.268     -1.341      0.184        -0.894     0.174
+==============================================================================
+Omnibus:                       57.645   Durbin-Watson:                   2.322
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):              484.064
+Skew:                          -1.941   Prob(JB):                    7.71e-106
+Kurtosis:                      14.488   Cond. No.                         86.7
+==============================================================================
