@@ -3,13 +3,12 @@ import pandas as pd
 from matplotlib import pyplot
 import statsmodels.api as sm
 
-%run program_1.py
+%run quality_control.py
 
-gapsCCEE, df_CCEE = quality_control("../data/RESTORE.TXT",
-"01/09/2013", "30/11/2013")
 
-gapsMONT, df_MONT = quality_control("../data/año2013.txt",
-"01/09/2013", "30/11/2013", data_format="MONT")
+gapsCCEE, df_CCEE = quality_control("../data/RESTORE.TXT", "01/09/2013", "30/11/2013", tzone="UTC")
+
+gapsMONT, df_MONT = quality_control("../data/año2013.txt", "01/09/2013", "30/11/2013", data_format="MONT",tzone="CET")
 
 # Correlación
 df_CCEE["Tout"].corr(df_MONT["Tout"])
@@ -25,11 +24,19 @@ pyplot.show()
 pyplot.show()
 
 # downsampling 
-tout_hourly_CCEE = df_CCEE["Tout"].resample("H")
-tout_hourly_MONT = df_MONT["Tout"].resample("H")
+tseries = df_CCEE.index
+tseries.tz = None
+df_CCEE_naive = df_CCEE.copy()
+df_CCEE_naive = df_CCEE_naive.reindex(tseries)
+#
+df_MONT_naive = df_MONT.copy()
+df_MONT_naive = df_MONT_naive.reindex(tseries)
+#
+tout_hourly_CCEE = df_CCEE_naive["Tout"].resample("H")
+tout_hourly_MONT = df_MONT_naive["Tout"].resample("H")
 
-tout_daily_CCEE = df_CCEE["Tout"].resample("D")
-tout_daily_MONT = df_MONT["Tout"].resample("D")
+tout_daily_CCEE = df_CCEE_naive["Tout"].resample("D")
+tout_daily_MONT = df_MONT_naive["Tout"].resample("D")
 
 df_CCEE["Tout"].describe()
 
