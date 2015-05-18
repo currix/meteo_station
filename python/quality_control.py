@@ -2,8 +2,8 @@ def quality_control(datafile, tmin, tmax, data_format = "CCEE", frequency = 10, 
     ''' Return elements reapeted and elements that are not in the interval given, from a time file.
         
         Arguments:
-                 datafile     :  a file with a time serie
-                 tmin         :
+                 datafile     :  a file with a meteorlogical data time series
+                 tmin         : 
                  tmax         :
                  data_format  :  define the format that you want to work (optional, default value = "CCEE")
                  frequency    :
@@ -12,7 +12,8 @@ def quality_control(datafile, tmin, tmax, data_format = "CCEE", frequency = 10, 
                  iprint       :  verbosity control (optional, default value = 0, min output)
         
         Output:
-                 gap          :  pandas series with data = irregular periods and index = times when irregular periods according to the frequency argument value happen.
+                 gap          :  pandas series with data = irregular periods and index = times 
+                               when irregular periods according to the frequency argument value happen.
                  new_metdataf :  pandas dataframe with the meteorological data and full time series with the given frequency as index.
     By UHU May, 2015'''
     ##

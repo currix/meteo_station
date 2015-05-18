@@ -1,5 +1,7 @@
 def prep_time_series(data_frame_name, timezone = "none", dst = True):
-    '''Given a data frame with meteorological data having a column labeld "time" and a column labeled "date" returns the same data frame adding a new column labeled "tdate" with a time series of combined data of dates and time columns.
+    '''Given a data frame with meteorological data having a column labeled "time" and a column labeled "date" 
+       returns the same data frame adding a new column labeled "tdate" with a time series of combined data of 
+       dates and time columns.
 
        Argument: 
                 data_frame_name  : meteorology data frame
