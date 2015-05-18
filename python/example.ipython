@@ -84,3 +84,91 @@ Prob(Omnibus):                  0.000   Jarque-Bera (JB):              484.064
 Skew:                          -1.941   Prob(JB):                    7.71e-106
 Kurtosis:                      14.488   Cond. No.                         86.7
 ==============================================================================
+
+hindex = []
+for index in df_CCEE.index:
+    hindex.append(heat_index(df_CCEE["Tout"].ix[index], df_CCEE["H out"].ix[index]))
+
+df_CCEE["Heat_Index"] = hindex
+
+ %run fill_gaps_method1.py
+
+fill_gap_method_simple(tout_hourly_CCEE,tout_hourly_MONT)
+
+
+Y = tout_hourly_CCEE.values
+X = tout_hourly_MONT.values
+
+notnanvalues = np.logical_and(np.logical_not(np.isnan(X)),np.logical_not(np.isnan(Y)))
+
+X = X[notnanvalues]
+Y = Y[notnanvalues]
+
+X = sm.add_constant(X)
+
+model = sm.OLS(Y, X)
+
+results = model.fit()
+
+print(results.summary())
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                      y   R-squared:                       0.973
+Model:                            OLS   Adj. R-squared:                  0.972
+Method:                 Least Squares   F-statistic:                 2.547e+04
+Date:                Mon, 18 May 2015   Prob (F-statistic):               0.00
+Time:                        18:30:21   Log-Likelihood:                -677.71
+No. Observations:                 722   AIC:                             1359.
+Df Residuals:                     720   BIC:                             1369.
+Df Model:                           1                                         
+==============================================================================
+                 coef    std err          t      P>|t|      [95.0% Conf. Int.]
+------------------------------------------------------------------------------
+x1             0.9929      0.006    159.580      0.000         0.981     1.005
+const          0.0608      0.092      0.664      0.507        -0.119     0.240
+==============================================================================
+Omnibus:                      212.147   Durbin-Watson:                   0.429
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):              577.142
+Skew:                           1.478   Prob(JB):                    4.73e-126
+Kurtosis:                       6.231   Cond. No.                         58.6
+==============================================================================
+
+results.params
+Out[60]: array([ 0.99289709,  0.06077207])
+
+In [75]: %run fill_gaps_method2.py
+
+fill_gap_method_regress(results.params, tout_hourly_CCEE, tout_hourly_MONT)
+Out[76]: 
+2014-03-01 00:00:00    12.700000
+2014-03-01 01:00:00    12.616667
+2014-03-01 02:00:00    12.600000
+2014-03-01 03:00:00    12.466667
+2014-03-01 04:00:00    12.300000
+2014-03-01 05:00:00    12.216667
+2014-03-01 06:00:00    12.133333
+2014-03-01 07:00:00    12.250000
+2014-03-01 08:00:00    12.683333
+2014-03-01 09:00:00    13.300000
+2014-03-01 10:00:00    14.100000
+2014-03-01 11:00:00    14.733333
+2014-03-01 12:00:00    16.216667
+2014-03-01 13:00:00    18.233333
+2014-03-01 14:00:00    17.850000
+...
+2014-03-31 10:00:00    14.888035
+2014-03-31 11:00:00    16.112608
+2014-03-31 12:00:00    16.129157
+2014-03-31 13:00:00    15.831288
+2014-03-31 14:00:00    16.460122
+2014-03-31 15:00:00    16.575960
+2014-03-31 16:00:00    15.980222
+2014-03-31 17:00:00    15.748546
+2014-03-31 18:00:00    15.665805
+2014-03-31 19:00:00    15.467225
+2014-03-31 20:00:00    15.235549
+2014-03-31 21:00:00    15.202453
+2014-03-31 22:00:00    15.185904
+2014-03-31 23:00:00    15.715450
+2014-04-01 00:00:00    15.300000
+Freq: H, Length: 745
