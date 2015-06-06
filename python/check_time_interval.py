@@ -28,16 +28,16 @@ def check_tinterval(tseries, interval=10, iprint = 0):
         if (iprint > 0):
             print date_time, date_time_0, delta
         ##
-###        if (delta/np.timedelta64(1, 'm') != interval ): ## numpy timedelta
-        if (delta.seconds/60 != interval or delta.days != 0 ): ## Transforms seconds to mins
+        if (delta/np.timedelta64(1, 'm') != interval ): ## numpy timedelta
+###        if (delta.seconds/60 != interval or delta.days != 0 ): ## Transforms seconds to mins
             ##
             if (iprint > 0):
-###             print "Irregular measure: ", date_time_0, date_time, delta/np.timedelta64(1, 'm')
-                print "Irregular measure: ", date_time_0, date_time, delta
+             print "Irregular measure: ", date_time_0, date_time, delta/np.timedelta64(1, 'm')
+###                print "Irregular measure: ", date_time_0, date_time, delta
             irr_times.append(date_time_0)
 #
-###            irr_period.append( delta/np.timedelta64(1, 'm') )
-            irr_period.append(delta.seconds/60+delta.days*24*60)
+            irr_period.append( delta/np.timedelta64(1, 'm') )
+###            irr_period.append(delta.seconds/60+delta.days*24*60)
         ##
         date_time_0 = date_time
     ##

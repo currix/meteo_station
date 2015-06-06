@@ -1,0 +1,13 @@
+The present set of files includes python code to deal with data from
+automatic meteorological stations. The code performs a quality control
+on the data and prepare using the Pandas library a data frame with the
+different fields of interest.
+
+The code has been applied to meteorological data from the town of
+Huelva (Spain) from a station located in the roof of the Facultad de
+Ciencias Experimentales in the University of Huelva.
+
+Part of this job has been done by Mr. Fernando Domínguez-Garzón as his
+"Trabajo fin de grado" (bachelor's degree thesis) during the second
+semester of the academic year 2014-2015.
+

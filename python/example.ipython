@@ -172,3 +172,110 @@ Out[76]:
 2014-03-31 23:00:00    15.715450
 2014-04-01 00:00:00    15.300000
 Freq: H, Length: 745
+
+# Checking initial CCEE data timezone
+gapsCCEE_1, df_CCEE_1 = quality_control("../data/RESTORE31.TXT", "01/03/2013 01:00", "27/10/2013 20:00", tzone="UTC")
+gapsMONT_1, df_MONT_1 = quality_control("../data/año2013.txt", "01/03/2013 00:00", "27/10/2013 19:00", data_format="MONT",tzone="CET")
+
+df_CCEE_1["Tout"].corr(df_MONT_1["Tout"])
+Out[4]: 0.92829960721076732
+
+index_CCEE_new = df_CCEE_1.index.shift(-1,"H")
+df_CCEE_1["shifted_dates"] = index_CCEE_new
+df_CCEE_1 = df_CCEE_1.set_index("shifted_dates")
+
+tseries=df_MONT_1.index
+tseries.tz = None
+df_MONT_1 = df_MONT_1.reindex(tseries)
+ 
+df_CCEE_1["Tout"].corr(df_MONT_1["Tout"])
+Out[16]: 0.97210698085312697
+
+# Save dframe
+df_MONT_1.save("filename")
+
+# load
+df_CCEE = pd.load("filename")
+
+
+Note: from 0.11.1 to_pickle and read_pickle will be the preferred way to do this.
+
+windsp_hourly_MONT = df_MONT_naive["Wind Speed"].resample("H")
+windsp_daily_MONT = df_MONT_naive["Wind Speed"].resample("D")
+
+rain_hourly_MONT = df_MONT_naive["Rain"].resample("H")
+rain_daily_MONT = df_MONT_naive["Rain"].resample("D")
+
+dewp_daily_MONT = df_MONT_naive["Dew point"].resample("D")
+dewp_hourly_MONT = df_MONT_naive["Dew point"].resample("H")
+
+
+press_daily_MONT = df_MONT_naive["Dew point"].resample("D")
+press_hourly_MONT = df_MONT_naive["Dew point"].resample("H")
+
+
+tout_daily_MONT.hist(bins = 50)
+
+tout_hourly_MONT.describe()
+Out[62]: 
+count    8759.000000
+mean       18.200571
+std         5.720074
+min         3.083333
+25%        14.116667
+50%        18.333333
+75%        22.316667
+max        35.983333
+dtype: float64
+
+
+tout_hourly_MONT.hist(bins = 50, normed=True)
+tout_hourly_MONT[np.logical_not(np.isnan(tout_hourly_MONT))].plot(kind='KDE',style='k--')
+
+import scipy.stats
+x = np.arange(0,45,0.5)
+y = scipy.stats.norm(18.2,5.720).pdf(x)
+pyplot.plot(x,y)
+
+
+
+
+dewp_hourly_MONT.describe()
+Out[79]: 
+count    8759.000000
+mean       13.367101
+std         4.446166
+min        -2.466667
+25%        10.100000
+50%        13.833333
+75%        16.850000
+max        22.033333
+dtype: float64
+
+
+dewp_hourly_MONT.hist(bins = 50, normed=True)
+
+dewp_hourly_MONT[np.logical_not(np.isnan(dewp_hourly_MONT))].plot(kind='KDE',style='k--')
+
+x=np.arange(0,40,0.25)
+y = scipy.stats.norm(13.367,4.4462).pdf(x)
+pyplot.plot(x,y)
+
+press_hourly_MONT.describe()
+Out[99]: 
+count    8759.000000
+mean     1016.158996
+std         6.039532
+min       980.533333
+25%      1013.225000
+50%      1015.733333
+75%      1018.983333
+max      1033.133333
+dtype: float64
+
+press_hourly_MONT.hist(bins = 50, normed=True)
+press_hourly_MONT[np.logical_not(np.isnan(press_hourly_MONT))].plot(kind='KDE',style='k--')
+x = np.arange(970,1030,2.5)
+y = scipy.stats.norm(1016.158996,6.039532).pdf(x)
+pyplot.plot(x,y)
+

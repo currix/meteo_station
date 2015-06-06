@@ -1,6 +1,3 @@
 # Created by Currix
-*.o
-*.mod
 *~
 *.pyc
-python/defined_functions.py
