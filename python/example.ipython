@@ -203,8 +203,9 @@ Note: from 0.11.1 to_pickle and read_pickle will be the preferred way to do this
 windsp_hourly_MONT = df_MONT_naive["Wind Speed"].resample("H")
 windsp_daily_MONT = df_MONT_naive["Wind Speed"].resample("D")
 
-rain_hourly_MONT = df_MONT_naive["Rain"].resample("H")
-rain_daily_MONT = df_MONT_naive["Rain"].resample("D")
+rain_hourly_MONT = df_MONT_naive["Rain"].resample("H",how='sum')
+rain_daily_MONT = df_MONT_naive["Rain"].resample("D",how='sum')
+rain_monthly_MONT = df_MONT_naive["Rain"].resample("M",how='sum')
 
 dewp_daily_MONT = df_MONT_naive["Dew point"].resample("D")
 dewp_hourly_MONT = df_MONT_naive["Dew point"].resample("H")
@@ -278,4 +279,9 @@ press_hourly_MONT[np.logical_not(np.isnan(press_hourly_MONT))].plot(kind='KDE',s
 x = np.arange(970,1030,2.5)
 y = scipy.stats.norm(1016.158996,6.039532).pdf(x)
 pyplot.plot(x,y)
+
+
+
+tmax_daily_MONT = df_MONT_naive["Tout"].resample("D", how="max")
+tmin_daily_MONT = df_MONT_naive["Tout"].resample("D", how="min")
 
