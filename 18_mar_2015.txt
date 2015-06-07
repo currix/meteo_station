@@ -1,6 +1,0 @@
-        Wind chill para la semana que viene.
-
-        Búsqueda de lagunas en datos
-
-        Problema con UTC - GMT+1,2
-

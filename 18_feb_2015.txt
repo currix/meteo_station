@@ -1,8 +1,0 @@
-Instalación de paquetes python.
-
-Clase 1 y 2 de Python. ipython qtconsole. 
-
-Primer contacto con bash. 
-
-Bibliografía para el cálculo del heat index.
-
