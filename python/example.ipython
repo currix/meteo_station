@@ -200,6 +200,8 @@ df_CCEE = pd.load("filename")
 
 Note: from 0.11.1 to_pickle and read_pickle will be the preferred way to do this.
 
+
+
 windsp_hourly_MONT = df_MONT_naive["Wind Speed"].resample("H")
 windsp_daily_MONT = df_MONT_naive["Wind Speed"].resample("D")
 
@@ -211,8 +213,8 @@ dewp_daily_MONT = df_MONT_naive["Dew point"].resample("D")
 dewp_hourly_MONT = df_MONT_naive["Dew point"].resample("H")
 
 
-press_daily_MONT = df_MONT_naive["Dew point"].resample("D")
-press_hourly_MONT = df_MONT_naive["Dew point"].resample("H")
+press_daily_MONT = df_MONT_naive["Pressure"].resample("D")
+press_hourly_MONT = df_MONT_naive["Pressure"].resample("H")
 
 
 tout_daily_MONT.hist(bins = 50)
@@ -230,8 +232,8 @@ max        35.983333
 dtype: float64
 
 
-tout_hourly_MONT.hist(bins = 50, normed=True)
-tout_hourly_MONT[np.logical_not(np.isnan(tout_hourly_MONT))].plot(kind='KDE',style='k--')
+tout_hourly_MONT.hist(bins = 50, normed=True, alpha = 0.4)
+tout_hourly_MONT[np.logical_not(np.isnan(tout_hourly_MONT))].plot(kind='KDE',style='k--') ### KDE = Kernel Density Estimation 
 
 import scipy.stats
 x = np.arange(0,45,0.5)
@@ -274,7 +276,7 @@ min       980.533333
 max      1033.133333
 dtype: float64
 
-press_hourly_MONT.hist(bins = 50, normed=True)
+press_hourly_MONT.hist(bins = 50, normed=True, alpha = 0.4)
 press_hourly_MONT[np.logical_not(np.isnan(press_hourly_MONT))].plot(kind='KDE',style='k--')
 x = np.arange(970,1030,2.5)
 y = scipy.stats.norm(1016.158996,6.039532).pdf(x)
@@ -285,3 +287,27 @@ pyplot.plot(x,y)
 tmax_daily_MONT = df_MONT_naive["Tout"].resample("D", how="max")
 tmin_daily_MONT = df_MONT_naive["Tout"].resample("D", how="min")
 
+
+
+
+In [106]: tout_daily_MONT.hist(bins = 50, normed=True, alpha = 0.4, label="Exp.")
+Out[106]: <matplotlib.axes.AxesSubplot at 0xcae27ac>
+
+In [107]: tout_daily_MONT[np.logical_not(np.isnan(tout_daily_MONT))].plot(kind='KDE',style='k--', label="KDE")
+Out[107]: <matplotlib.axes.AxesSubplot at 0xcae27ac>
+
+In [108]: pyplot.plot(x,y, lw=2, label="Normal")
+Out[108]: [<matplotlib.lines.Line2D at 0xcacecec>]
+
+In [109]: pyplot.legend()
+Out[109]: <matplotlib.legend.Legend at 0xcdbab0c>
+
+In [82]: pyplot.xlabel("Temperatura ($^\circ$C)")
+Out[82]: <matplotlib.text.Text at 0xd48876c>
+
+In [83]: pyplot.ylabel("Histograma Normalizado")
+Out[83]: <matplotlib.text.Text at 0xd4867ec>
+
+In [84]: panel.xaxis.label.set_fontsize(18)
+
+In [110]: pyplot.show()
