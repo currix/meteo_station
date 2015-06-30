@@ -311,3 +311,55 @@ Out[83]: <matplotlib.text.Text at 0xd4867ec>
 In [84]: panel.xaxis.label.set_fontsize(18)
 
 In [110]: pyplot.show()
+
+
+# Compute Heat Index
+
+
+import numpy as np
+import pandas as pd
+from matplotlib import pyplot
+import statsmodels.api as sm
+
+
+%run read_data_F.py
+
+t_CCEE =read_data("tempFILLED.csv", "tout")
+
+h_CCEE =read_data("houtFILLED.csv", "hout")
+
+%run heat_index.py
+
+h_CCEE =read_data("houtFILLED.csv", "hout")
+
+ map(heat_index, t_CCEE["tout"], h_CCEE["hout"])
+Out[12]: 
+[13.814336419753081,
+ 15.617210648148152,
+ 16.042781635802474,
+ 14.556604938271608,
+ 10.80377700617284,
+ 10.704888117283948,
+ 12.138746141975309,
+ 12.506894290123457,
+ 12.507615740740741,
+ 11.553584104938276,
+.
+.
+.
+.
+
+# Creamos un dataframe
+hi_CCEE = pd.DataFrame(data=hi, index=t_CCEE.index, columns=["Heat Index"])
+hi_CCEE["Heat Index"].plot()
+Out[25]: <matplotlib.axes.AxesSubplot at 0xb230ddec>
+
+t_CCEE["tout"].plot()
+Out[26]: <matplotlib.axes.AxesSubplot at 0xb230ddec>
+
+In [27]: pyplot.show()
+
+(t_CCEE["tout"]-hi_CCEE["Heat Index"]).plot()
+Out[28]: <matplotlib.axes.AxesSubplot at 0xaee104c>
+
+pyplot.show()
